@@ -430,6 +430,133 @@
       .reveal { opacity: 1; transform: none; }
       body { opacity: 1; }
     }
+  
+
+    /* Final requested refinement: continuous headline animation + animated color borders */
+    .headline-animated {
+      animation: headlineBreath 3.8s ease-in-out infinite;
+      transform-origin: left center;
+    }
+    .headline-animated .word {
+      animation-name: wordSlideIn, gradientShift, wordGlow;
+      animation-duration: .72s, 5.5s, 2.8s;
+      animation-timing-function: cubic-bezier(.2,.7,.2,1), ease-in-out, ease-in-out;
+      animation-fill-mode: forwards, none, none;
+      animation-iteration-count: 1, infinite, infinite;
+    }
+    .headline-animated .word:nth-child(1) { animation-delay: .08s, 0s, 0s; }
+    .headline-animated .word:nth-child(2) { animation-delay: .22s, 0s, .12s; }
+    .headline-animated .word:nth-child(3) { animation-delay: .36s, 0s, .24s; }
+    .headline-animated .word:nth-child(4) { animation-delay: .50s, 0s, .36s; }
+
+    .eyebrow,
+    .card,
+    .work-card,
+    .timeline-item,
+    .info-item,
+    .meta-card,
+    .contact-panel,
+    .hero-visual,
+    .floating-card,
+    .skill-pill,
+    .btn-ghost {
+      position: relative;
+      border-color: transparent !important;
+      isolation: isolate;
+    }
+
+    .eyebrow::before,
+    .card::before,
+    .work-card::before,
+    .timeline-item::before,
+    .info-item::before,
+    .meta-card::before,
+    .contact-panel::before,
+    .hero-visual::before,
+    .floating-card::before,
+    .skill-pill::before,
+    .btn-ghost::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: inherit;
+      background: linear-gradient(120deg, var(--cyan), var(--blue), var(--violet), var(--cyan));
+      background-size: 280% 280%;
+      animation: borderColorFlow 4.8s linear infinite;
+      pointer-events: none;
+      z-index: -1;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .eyebrow::before {
+      padding: 1.5px;
+      animation-duration: 3.2s;
+      filter: drop-shadow(0 0 10px rgba(56,189,248,.28));
+    }
+
+    .card::before,
+    .work-card::before,
+    .timeline-item::before,
+    .info-item::before,
+    .meta-card::before,
+    .contact-panel::before {
+      opacity: .72;
+    }
+
+    body.theme-light .eyebrow::before,
+    body.theme-light .card::before,
+    body.theme-light .work-card::before,
+    body.theme-light .timeline-item::before,
+    body.theme-light .info-item::before,
+    body.theme-light .meta-card::before,
+    body.theme-light .contact-panel::before,
+    body.theme-light .hero-visual::before,
+    body.theme-light .floating-card::before,
+    body.theme-light .skill-pill::before,
+    body.theme-light .btn-ghost::before {
+      background: linear-gradient(120deg, #0284c7, #2563eb, #7c3aed, #0284c7);
+      background-size: 280% 280%;
+      opacity: .78;
+    }
+
+    @keyframes headlineBreath {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-2px) scale(1.012); }
+    }
+    @keyframes wordGlow {
+      0%, 100% { filter: drop-shadow(0 0 0 rgba(56,189,248,0)); }
+      50% { filter: drop-shadow(0 0 12px rgba(56,189,248,.22)); }
+    }
+    @keyframes borderColorFlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 280% 50%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .headline-animated,
+      .headline-animated .word,
+      .eyebrow::before,
+      .card::before,
+      .work-card::before,
+      .timeline-item::before,
+      .info-item::before,
+      .meta-card::before,
+      .contact-panel::before,
+      .hero-visual::before,
+      .floating-card::before,
+      .skill-pill::before,
+      .btn-ghost::before {
+        animation: none !important;
+      }
+      .headline-animated .word {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -465,11 +592,11 @@
       <div class="container hero-grid">
         <div>
           <span class="eyebrow reveal">Creative Video Editor</span>
-          <h1 class="headline-animated" aria-label="Sharp Edits. Strong Impact.">
+          <h1 class="headline-animated" aria-label="Sharp Edits. Strong Impacts.">
             <span class="word">Sharp</span>
             <span class="word">Edits.</span><br>
             <span class="word">Strong</span>
-            <span class="word">Impact.</span>
+            <span class="word">Impacts.</span>
           </h1>
           <p class="hero-copy">I’m Hla Swi Ching Marma, a creative video editor specializing in YouTube videos, reels, promotional videos, thumbnails, and social media content. I turn raw footage into clean, engaging, and professional videos.</p>
           <div class="hero-actions">
