@@ -23,6 +23,7 @@
   <meta name="twitter:image" content="https://ching.dev.cv/assets/images/hero-image.png" />
 
   <title>Hla Swi Ching Marma | Creative Video Editor</title>
+  <link rel="preload" as="image" href="assets/images/hero-image.png" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -82,6 +83,11 @@
 
     .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
     .section { padding: 96px 0; position: relative; scroll-margin-top: 86px; }
+    /* Performance: skip rendering below-the-fold sections until near viewport */
+    @supports (content-visibility: auto) {
+      .section { content-visibility: auto; contain-intrinsic-size: 780px; }
+      .hero { content-visibility: visible; }
+    }
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -337,6 +343,43 @@
     body.theme-light .floating-card, body.theme-light .contact-panel { background: rgba(255,255,255,.86); }
     body.theme-light .floating-card p, body.theme-light .contact-panel h2 { color: var(--text-strong); }
     body.theme-light .theme-toggle, body.theme-light .menu-toggle, body.theme-light .back-to-top { background: rgba(255,255,255,.86); color: #0f172a; }
+    /* Light theme contrast fix: keep highlighted labels and hero title readable */
+    body.theme-light .eyebrow {
+      color: #075985;
+      background: rgba(240, 249, 255, .98);
+      border-color: rgba(2, 132, 199, .48);
+      box-shadow: 0 10px 28px rgba(2, 132, 199, .12);
+      text-shadow: none;
+    }
+    body.theme-light .eyebrow::after {
+      background: #0284c7;
+      box-shadow: 0 0 0 5px rgba(2, 132, 199, .12);
+    }
+    body.theme-light .gradient-text {
+      background: linear-gradient(135deg, #020617 0%, #075985 42%, #2563eb 72%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+    }
+    body.theme-light .section-title,
+    body.theme-light .contact-panel h2,
+    body.theme-light .card h3,
+    body.theme-light .work-body h3,
+    body.theme-light .timeline h3,
+    body.theme-light .info-item strong,
+    body.theme-light .meta-card strong {
+      color: #020617;
+    }
+    body.theme-light .section-lead,
+    body.theme-light .card p,
+    body.theme-light .work-body p,
+    body.theme-light .timeline p,
+    body.theme-light .about-copy p,
+    body.theme-light .info-item span,
+    body.theme-light .meta-card span {
+      color: #334155;
+    }
 
     body.theme-dark { --bg: #020617; --bg-2: #07111f; --card: rgba(2, 6, 23, .82); --card-2: rgba(2, 6, 23, .94); --text: #f8fafc; --text-strong: #ffffff; --muted: #94a3b8; --line: rgba(148, 163, 184, .18); }
 
@@ -441,7 +484,7 @@
           </div>
         </div>
         <div class="hero-visual">
-          <img src="assets/images/hero-image.png" alt="Hla Swi Ching Marma in a video editing studio with Premiere Pro visuals" fetchpriority="high" />
+          <img src="assets/images/hero-image.png" alt="Hla Swi Ching Marma in a video editing studio with Premiere Pro visuals" fetchpriority="high" decoding="async" />
           <div class="floating-card">
             <p>Clean cuts. Strong visuals. Better storytelling.</p>
             <small>YouTube • Reels • Thumbnails • Brand Content</small>
