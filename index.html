@@ -275,9 +275,14 @@
     .skill-pill:hover { transform: translateY(-3px); border-color: rgba(56,189,248,.36); }
 
     .timeline { margin-top: 34px; display: grid; gap: 18px; }
-    .timeline-item { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 24px; border-radius: var(--radius); border: 1px solid var(--line); background: rgba(15,23,42,.72); transition: transform .25s ease, border-color .25s ease; }
-    .timeline-item:hover { transform: translateX(5px); border-color: rgba(56,189,248,.28); }
-    .timeline-date { color: var(--cyan); font-weight: 900; }
+    .timeline-item { display: grid; grid-template-columns: 240px 1fr; gap: 28px; padding: 24px; border-radius: var(--radius); border: 1px solid var(--line); background: rgba(15,23,42,.72); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+    .timeline-item:hover { transform: translateX(5px); border-color: rgba(56,189,248,.28); box-shadow: 0 22px 60px rgba(0,0,0,.22); }
+    .timeline-brand { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; }
+    .org-logo-frame { width: 118px; height: 118px; padding: 14px; border-radius: 24px; background: #ffffff; border: 1px solid rgba(56,189,248,.30); display: grid; place-items: center; box-shadow: 0 18px 45px rgba(0,0,0,.18); overflow: hidden; }
+    .org-logo-frame img { width: 100%; height: 100%; object-fit: contain; }
+    .org-duration { color: var(--cyan); font-weight: 950; font-size: 15px; line-height: 1.25; }
+    .org-role { color: var(--muted); font-size: 12px; font-weight: 800; line-height: 1.25; }
+    .timeline-date { display: inline-flex; width: fit-content; margin-bottom: 10px; padding: 6px 10px; border-radius: 999px; background: rgba(56,189,248,.10); color: var(--cyan); font-weight: 900; font-size: 13px; border: 1px solid rgba(56,189,248,.20); }
     .timeline h3 { margin: 0 0 8px; color: var(--text-strong); }
     .timeline p { margin: 0; color: var(--muted); }
     .timeline ul { margin: 12px 0 0; color: #cbd5e1; padding-left: 18px; }
@@ -380,6 +385,8 @@
     body.theme-light .meta-card span {
       color: #334155;
     }
+    body.theme-light .org-logo-frame { background: #ffffff; border-color: rgba(37, 99, 235, .24); box-shadow: 0 18px 45px rgba(15, 23, 42, .10); }
+    body.theme-light .org-role { color: #475569; }
 
     body.theme-dark { --bg: #020617; --bg-2: #07111f; --card: rgba(2, 6, 23, .82); --card-2: rgba(2, 6, 23, .94); --text: #f8fafc; --text-strong: #ffffff; --muted: #94a3b8; --line: rgba(148, 163, 184, .18); }
 
@@ -557,6 +564,149 @@
       }
     }
 
+  
+
+    /* Final CV + animation visibility refinements */
+    @property --border-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
+    }
+
+    /* Bigger and clearer Creative Video Editor label */
+    .eyebrow {
+      padding: 10px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .075em;
+      color: #dff6ff;
+      background: rgba(56, 189, 248, .10);
+      box-shadow: 0 12px 30px rgba(56, 189, 248, .10);
+    }
+
+    /* Make headline premium but smaller than the previous oversized version */
+    .hero h1 {
+      font-size: clamp(38px, 5.45vw, 66px);
+      line-height: .98;
+      letter-spacing: -0.058em;
+      max-width: 650px;
+    }
+
+    .headline-animated {
+      animation: headlineBreath 3.6s ease-in-out infinite, headlineFloat 7s ease-in-out infinite;
+      transform-origin: left center;
+    }
+
+    .headline-animated .word {
+      background: linear-gradient(135deg, #ffffff 0%, #dff6ff 28%, #7dd3fc 52%, #60a5fa 76%, #c4b5fd 100%);
+      background-size: 220% 220%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation-name: wordSlideIn, gradientShift, wordGlow;
+      animation-duration: .72s, 4.8s, 2.6s;
+      animation-timing-function: cubic-bezier(.2,.7,.2,1), ease-in-out, ease-in-out;
+      animation-fill-mode: forwards, none, none;
+      animation-iteration-count: 1, infinite, infinite;
+    }
+
+    /* Critical light-mode contrast fix for headline words */
+    body.theme-light .headline-animated .word,
+    body.theme-light .gradient-text,
+    body.theme-light .gradient-text .word {
+      background: linear-gradient(135deg, #03152f 0%, #075985 28%, #1d4ed8 56%, #6d28d9 100%);
+      background-size: 220% 220%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+      filter: none;
+    }
+
+    body.theme-light .eyebrow {
+      color: #075985;
+      background: rgba(240, 249, 255, .98);
+      box-shadow: 0 14px 30px rgba(2, 132, 199, .14);
+    }
+
+    /* Rotating animated border around important UI blocks */
+    .eyebrow::before,
+    .card::before,
+    .work-card::before,
+    .timeline-item::before,
+    .info-item::before,
+    .meta-card::before,
+    .contact-panel::before,
+    .hero-visual::before,
+    .floating-card::before,
+    .skill-pill::before,
+    .btn-ghost::before {
+      background: conic-gradient(from var(--border-angle), var(--cyan), var(--blue), var(--violet), var(--cyan));
+      background-size: auto;
+      animation: borderSpin 4.2s linear infinite;
+      opacity: .88;
+    }
+
+    .eyebrow::before {
+      padding: 2px;
+      animation-duration: 2.8s;
+      filter: drop-shadow(0 0 13px rgba(56,189,248,.34));
+    }
+
+    .hero-visual::before,
+    .floating-card::before,
+    .meta-card::before {
+      animation-duration: 5.4s;
+    }
+
+    body.theme-light .eyebrow::before,
+    body.theme-light .card::before,
+    body.theme-light .work-card::before,
+    body.theme-light .timeline-item::before,
+    body.theme-light .info-item::before,
+    body.theme-light .meta-card::before,
+    body.theme-light .contact-panel::before,
+    body.theme-light .hero-visual::before,
+    body.theme-light .floating-card::before,
+    body.theme-light .skill-pill::before,
+    body.theme-light .btn-ghost::before {
+      background: conic-gradient(from var(--border-angle), #0284c7, #2563eb, #7c3aed, #38bdf8, #0284c7);
+      opacity: .92;
+    }
+
+    @keyframes borderSpin {
+      to { --border-angle: 360deg; }
+    }
+
+    @keyframes headlineFloat {
+      0%, 100% { filter: drop-shadow(0 0 0 rgba(56,189,248,0)); }
+      50% { filter: drop-shadow(0 0 18px rgba(56,189,248,.18)); }
+    }
+
+    @media (max-width: 680px) {
+      .eyebrow { font-size: 13px; padding: 9px 14px; }
+      .hero h1 { font-size: clamp(42px, 13vw, 58px); max-width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .headline-animated,
+      .headline-animated .word,
+      .eyebrow::before,
+      .card::before,
+      .work-card::before,
+      .timeline-item::before,
+      .info-item::before,
+      .meta-card::before,
+      .contact-panel::before,
+      .hero-visual::before,
+      .floating-card::before,
+      .skill-pill::before,
+      .btn-ghost::before {
+        animation: none !important;
+      }
+      .headline-animated .word { opacity: 1; transform: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -695,9 +845,43 @@
         <span class="eyebrow">Experience</span>
         <h2 class="section-title">Professional journey.</h2>
         <div class="timeline">
-          <div class="timeline-item"><div class="timeline-date">Currently Working</div><div><h3>SUO XI Hospital (Acupuncture) — IT Department</h3><p>Started in the Call Center Department and later moved to the IT Department based on performance.</p><ul><li>Content Writing</li><li>Video Editing using Adobe Premiere Pro</li><li>Graphic Design using Adobe Illustrator & Canva</li><li>Social Media Content Management</li><li>Creative Campaign Planning</li></ul></div></div>
-          <div class="timeline-item"><div class="timeline-date">6-Month Project</div><div><h3>Bangladesh Police Headquarters, Dhaka — Computer Operator</h3><p>Worked on computer operations, data entry, documentation, and office administrative support.</p></div></div>
-          <div class="timeline-item"><div class="timeline-date">Previous Role</div><div><h3>Transcom Foods Limited — KFC Bangladesh</h3><p>Served as Senior Team Member (4-Star), handling cashier operations, supply and inventory, kitchen operations, customer service, and team coordination.</p></div></div>
+          <div class="timeline-item">
+            <div class="timeline-brand">
+              <div class="org-logo-frame"><img src="assets/images/org-suo-xi-hospital.png" alt="SUO XI Hospital logo" loading="lazy" decoding="async" /></div>
+              <div class="org-duration">2.7 yrs</div>
+              <div class="org-role">12 Feb 2024 – Continuing</div>
+            </div>
+            <div>
+              <div class="timeline-date">Currently Working</div>
+              <h3>SUO XI Hospital (Acupuncture) — IT Department</h3>
+              <p>Started in the Call Center Department and later moved to the IT Department based on performance.</p>
+              <ul><li>Content Writing</li><li>Video Editing using Adobe Premiere Pro</li><li>Graphic Design using Adobe Illustrator & Canva</li><li>Social Media Content Management</li><li>Creative Campaign Planning</li></ul>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-brand">
+              <div class="org-logo-frame"><img src="assets/images/org-bangladesh-police.png" alt="Bangladesh Police logo" loading="lazy" decoding="async" /></div>
+              <div class="org-duration">6-Month Project</div>
+              <div class="org-role">Computer Operator</div>
+            </div>
+            <div>
+              <div class="timeline-date">Project Experience</div>
+              <h3>Bangladesh Police Headquarters, Dhaka — Computer Operator</h3>
+              <p>Worked on computer operations, data entry, documentation, and office administrative support.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-brand">
+              <div class="org-logo-frame"><img src="assets/images/org-kfc-logo.jpeg" alt="KFC logo" loading="lazy" decoding="async" /></div>
+              <div class="org-duration">Previous Role</div>
+              <div class="org-role">Senior Team Member (4-Star)</div>
+            </div>
+            <div>
+              <div class="timeline-date">Previous Role</div>
+              <h3>Transcom Foods Limited — KFC Bangladesh</h3>
+              <p>Served as Senior Team Member (4-Star), handling cashier operations, supply and inventory, kitchen operations, customer service, and team coordination.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
